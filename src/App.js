@@ -4,15 +4,17 @@ import { ThemeProvider } from '@mui/material';
 import { darkTheme } from './theme/darktheme';
 import Navbar from './Pages/Navbar/Navbar';
 import Homepage from './Pages/Homepage/Homepage';
+import Auth from './Pages/Auth/Auth';
 
 function App() {
   return (
     <ThemeProvider theme={darkTheme}>
       
-      <Navbar/>
+      {/* <Navbar/> */}
 
-      <Homepage/>
+      {/* <Homepage/> */}
 
+      <Auth/>
     </ThemeProvider>
   );
 }

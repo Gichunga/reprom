@@ -14,7 +14,7 @@ const style = {
   transform: "translate(-50%, -50%)",
   width: 400,
   bgcolor: "background.paper",
-  border: "2px solid #000",
+  outline: "none",
   boxShadow: 24,
   p: 4,
 };
@@ -52,8 +52,8 @@ export default function CreateProjectForm({ handleClose, open }) {
   const handleSubmit = (e) => {
     e.preventDefault();
     const { deadline } = formData;
-    formData.deadline=formatDate(deadline);
-    formData.tags=selectedTags;
+    formData.deadline = formatDate(deadline);
+    formData.tags = selectedTags;
     console.log("formData: ", formData, "deadline: ", formData.deadline);
     handleClose();
   };
@@ -69,7 +69,15 @@ export default function CreateProjectForm({ handleClose, open }) {
       $ms: milliseconds,
     } = input;
 
-    const date = new Date(year,month,day,hours,minutes,seconds,milliseconds);
+    const date = new Date(
+      year,
+      month,
+      day,
+      hours,
+      minutes,
+      seconds,
+      milliseconds
+    );
     const formatedDate = date.toISOString();
 
     return formatedDate;

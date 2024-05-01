@@ -2,6 +2,7 @@ import { Avatar, Button } from "@mui/material";
 import React, { useState } from "react";
 import "./Sidebar.css";
 import CreateProjectForm from "../Project/CreateProject";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const menu = [
   { name: "HOME", value: "HOME", role: ["ROLE_ADMIN", "ROLE_CUSTOMER"] },
@@ -15,11 +16,24 @@ const menu = [
 const role = "ROLE_ADMIN";
 
 const Sidebar = () => {
+  const location = useLocation();
+  const navigate = useNavigate();
   const [activeMenu, setActiveMenu] = useState("HOME");
+
   const handleMenuItemChange = (item) => {
+    const updatedParams = new URLSearchParams(location.search)
     setActiveMenu(item.name);
-    if (item.name === 'Create New Project') {
-        handleOpenCreateProjectForm();
+    if (item.name === "Create New Project") {
+      handleOpenCreateProjectForm();
+    } else if (item.name === "HOME") {
+      updatedParams.delete("filter"); // delete filter
+      const queryString = updatedParams.toString(); // check if there is any other query parameter in the url
+      // if present, write the pathname and append the query string. Else, just the pathname
+      const updatedPath = queryString?`${location.pathname}?${queryString}`:location.pathname;
+      navigate(updatedPath);
+    } else{
+      updatedParams.set("filter", item.value)
+      navigate(`${location.pathname}?${updatedParams.toString()}`);
     }
   };
 
@@ -70,7 +84,10 @@ const Sidebar = () => {
           </Button>
         </div>
       </div>
-      <CreateProjectForm open={openCreateProjectForm} handleClose={handleCloseCreateProjectForm}/>
+      <CreateProjectForm
+        open={openCreateProjectForm}
+        handleClose={handleCloseCreateProjectForm}
+      />
     </>
   );
 };
